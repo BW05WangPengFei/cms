@@ -1,5 +1,7 @@
 package com.wangpengfei.util;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,4 +42,27 @@ public static String toHtml(String text){
 	public static boolean hasText(String text){
 		return !(text==null||"".equals(text));
 	}
+	
+	public static String getOneChinese(){
+		String string = "";
+		int high;
+		int low;
+		Random random = new Random();
+		
+		high = (176+Math.abs(random.nextInt(39)));
+		low = (161+Math.abs(random.nextInt(93)));
+		byte[] b = new byte[2];
+		
+		b[0]=(Integer.valueOf(high)).byteValue();
+		b[1]=(Integer.valueOf(low)).byteValue();
+		
+		try {
+			string = new String(b,"GBK");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return string;
+	}
+	
 }
