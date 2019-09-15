@@ -1,14 +1,25 @@
 package com.wangpengfei.util;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Constructor;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.sun.tools.classfile.StackMapTable_attribute.same_frame;
+
 /**
- * @author ÍõÅô·É
+ * @author ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  *
- * 2019Äê9ÔÂ9ÈÕÉÏÎç9:39:02
+ * 2019ï¿½ï¿½9ï¿½ï¿½9ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½9:39:02
  */
 public class StringUtils {
 public static String toHtml(String text){
@@ -63,6 +74,32 @@ public static String toHtml(String text){
 			e.printStackTrace();
 		}
 		return string;
+	}
+	
+	public static int getRemainDays(Date futureDate) {
+		return (int)(futureDate.getTime()-new Date().getTime())/1000/3600/24;	
+	}
+	
+	public static boolean isToday(Date date) {
+		
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+		String dateStr = simpleDateFormat.format(date);
+		String todayStr = simpleDateFormat.format(new Date());
+		return dateStr.equals(todayStr);
+		
+	}
+	
+	public static List fileToBean(String fileName,Constructor constructor) throws Exception{
+		File file = new File(fileName);
+		BufferedReader br = new BufferedReader(new FileReader(file));
+		String s = null;
+		ArrayList<Object> list = new ArrayList<Object>();
+		while((s = br.readLine())!=null){
+			String[] split = s.split("\\|");
+			Object object = constructor.newInstance(split);
+			list.add(object);
+		}
+		return list;
 	}
 	
 }
